@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 
 const plans = [
   {
-    name: 'Apoiador',
+    name: 'Simpatizante',
     value: 20,
     features: {
       certificate: true,
@@ -15,7 +15,7 @@ const plans = [
     },
   },
   {
-    name: 'Aliado',
+    name: 'Aliado/a',
     value: 25,
     features: {
       certificate: true,
@@ -26,7 +26,7 @@ const plans = [
     },
   },
   {
-    name: 'Defensor',
+    name: 'Ativista',
     value: 30,
     popular: true,
     percentage: '67%',
@@ -39,7 +39,7 @@ const plans = [
     },
   },
   {
-    name: 'Guardião',
+    name: 'Embaixador/a',
     value: 40,
     features: {
       certificate: true,

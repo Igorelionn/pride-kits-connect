@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Check, Gift, Truck, Shield, Heart, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -35,7 +36,12 @@ const bumpOptions = [
 
 export const OrderBumpModal = ({ isOpen, onClose, selectedValue }: OrderBumpModalProps) => {
   const [selectedBumps, setSelectedBumps] = useState<string[]>([]);
+  const navigate = useNavigate();
   const hasKit = selectedValue >= 30;
+
+  const handleConfirmDonation = () => {
+    navigate('/obrigado');
+  };
 
   const toggleBump = (id: string) => {
     setSelectedBumps((prev) =>
@@ -175,6 +181,7 @@ export const OrderBumpModal = ({ isOpen, onClose, selectedValue }: OrderBumpModa
 
           {/* CTA */}
           <Button
+            onClick={handleConfirmDonation}
             className="w-full gradient-cta text-primary-foreground font-bold py-6 text-lg rounded-xl hover:opacity-90 transition-all"
           >
             Confirmar Doação de R$ {totalValue}

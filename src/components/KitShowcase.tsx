@@ -1,40 +1,34 @@
-import { Shirt, Award, Droplets, CircleDot, Sticker } from 'lucide-react';
+import camisetaPride from '@/assets/camiseta-pride.png';
+import bonePride from '@/assets/bone-pride.png';
+import garrafaPride from '@/assets/garrafa-pride.png';
+import pulseiraPride from '@/assets/pulseira-pride.png';
+import adesivosPride from '@/assets/adesivos-pride.png';
 
 const kitItems = [
   {
-    icon: Shirt,
+    image: camisetaPride,
     name: 'Camiseta Pride',
     description: 'Camiseta de alta qualidade com estampa exclusiva do arco-íris e mensagem de amor e respeito',
-    bgColor: 'bg-pride-purple/10',
-    iconColor: 'text-pride-purple',
   },
   {
-    icon: Award,
+    image: bonePride,
     name: 'Boné Orgulho',
     description: 'Boné com bordado da bandeira do orgulho LGBT+ em cores vibrantes',
-    bgColor: 'bg-pride-blue/10',
-    iconColor: 'text-pride-blue',
   },
   {
-    icon: Droplets,
+    image: garrafaPride,
     name: 'Garrafa Pride',
     description: 'Garrafa térmica com as cores do arco-íris, perfeita para o dia a dia',
-    bgColor: 'bg-pride-green/10',
-    iconColor: 'text-pride-green',
   },
   {
-    icon: CircleDot,
+    image: pulseiraPride,
     name: 'Pulseira Orgulho',
     description: 'Pulseira de silicone colorida com as cores da diversidade',
-    bgColor: 'bg-pride-yellow/10',
-    iconColor: 'text-pride-yellow',
   },
   {
-    icon: Sticker,
+    image: adesivosPride,
     name: 'Adesivos Exclusivos',
     description: 'Cartela com adesivos Pride e mensagens de inclusão e amor',
-    bgColor: 'bg-pride-pink/10',
-    iconColor: 'text-pride-pink',
   },
 ];
 
@@ -58,11 +52,15 @@ export const KitShowcase = () => {
           {kitItems.map((item, index) => (
             <div
               key={item.name}
-              className="bg-card rounded-2xl p-6 shadow-card hover:shadow-glow transition-all duration-300 hover:-translate-y-1 text-center group"
+              className="bg-card rounded-2xl p-4 shadow-card hover:shadow-glow transition-all duration-300 hover:-translate-y-1 text-center group"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className={`w-16 h-16 mx-auto mb-4 rounded-xl ${item.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform`}>
-                <item.icon className={`w-8 h-8 ${item.iconColor}`} />
+              <div className="w-full aspect-square mb-4 rounded-xl overflow-hidden bg-muted/20">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
               </div>
               <h3 className="font-display font-bold text-foreground mb-2">
                 {item.name}
