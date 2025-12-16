@@ -1,12 +1,51 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from 'react';
+import { UrgencyHeader } from '@/components/UrgencyHeader';
+import { HeroSection } from '@/components/HeroSection';
+import { DonationValues } from '@/components/DonationValues';
+import { BenefitsComparison } from '@/components/BenefitsComparison';
+import { KitShowcase } from '@/components/KitShowcase';
+import { Testimonials } from '@/components/Testimonials';
+import { ImpactSection } from '@/components/ImpactSection';
+import { Footer } from '@/components/Footer';
+import { DonationNotification } from '@/components/DonationNotification';
+import { OrderBumpModal } from '@/components/OrderBumpModal';
 
 const Index = () => {
+  const [selectedValue, setSelectedValue] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleSelectValue = (value: number) => {
+    setSelectedValue(value);
+    setIsModalOpen(true);
+  };
+
+  const scrollToDonate = () => {
+    document.getElementById('donate')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <UrgencyHeader />
+      <HeroSection onDonateClick={scrollToDonate} />
+      <DonationValues 
+        selectedValue={selectedValue} 
+        onSelectValue={handleSelectValue} 
+      />
+      <BenefitsComparison onSelectPlan={handleSelectValue} />
+      <KitShowcase />
+      <Testimonials />
+      <ImpactSection />
+      <Footer />
+      
+      {/* Donation Notification */}
+      <DonationNotification />
+      
+      {/* Order Bump Modal */}
+      <OrderBumpModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        selectedValue={selectedValue || 30}
+      />
     </div>
   );
 };
