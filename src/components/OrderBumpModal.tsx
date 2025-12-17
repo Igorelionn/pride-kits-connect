@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { X, Check, Gift, Truck, Shield, Heart, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import garrafaPride from '@/assets/garrafa-pride.png';
+import adesivosPride from '@/assets/adesivos-pride.png';
+import camisetaPride from '@/assets/camiseta-pride.png';
 
 interface OrderBumpModalProps {
   isOpen: boolean;
@@ -17,6 +20,7 @@ const bumpOptions = [
     description: 'Mais 10 adesivos exclusivos para espalhar amor',
     price: 5,
     originalPrice: 12,
+    image: adesivosPride,
   },
   {
     id: 'second-shirt',
@@ -24,6 +28,7 @@ const bumpOptions = [
     description: 'Camiseta adicional para presentear alguém especial',
     price: 15,
     originalPrice: 35,
+    image: camisetaPride,
   },
   {
     id: 'premium-bottle',
@@ -31,6 +36,7 @@ const bumpOptions = [
     description: 'Versão premium com isolamento térmico 24h',
     price: 20,
     originalPrice: 45,
+    image: garrafaPride,
   },
 ];
 
@@ -73,6 +79,8 @@ export const OrderBumpModal = ({ isOpen, onClose, selectedValue }: OrderBumpModa
           <button
             onClick={onClose}
             className="absolute top-4 right-4 text-primary-foreground/80 hover:text-primary-foreground"
+            aria-label="Fechar modal"
+            title="Fechar"
           >
             <X className="w-6 h-6" />
           </button>
@@ -125,23 +133,34 @@ export const OrderBumpModal = ({ isOpen, onClose, selectedValue }: OrderBumpModa
                   )}
                 >
                   <div className="flex items-start gap-3">
-                    <div
-                      className={cn(
-                        "w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0 mt-0.5",
-                        selectedBumps.includes(bump.id)
-                          ? "border-primary bg-primary"
-                          : "border-muted-foreground"
-                      )}
-                    >
-                      {selectedBumps.includes(bump.id) && (
-                        <Check className="w-3 h-3 text-primary-foreground" />
-                      )}
+                    {/* Product Image */}
+                    <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-muted">
+                      <img 
+                        src={bump.image} 
+                        alt={bump.name}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
+                    
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
+                        <div
+                          className={cn(
+                            "w-5 h-5 rounded border-2 flex items-center justify-center flex-shrink-0",
+                            selectedBumps.includes(bump.id)
+                              ? "border-primary bg-primary"
+                              : "border-muted-foreground"
+                          )}
+                        >
+                          {selectedBumps.includes(bump.id) && (
+                            <Check className="w-3 h-3 text-primary-foreground" />
+                          )}
+                        </div>
                         <span className="font-medium text-foreground">
                           {bump.name}
                         </span>
+                      </div>
+                      <div className="flex items-center gap-2 mb-1 ml-7">
                         <span className="text-xs line-through text-muted-foreground">
                           R$ {bump.originalPrice}
                         </span>
@@ -149,7 +168,7 @@ export const OrderBumpModal = ({ isOpen, onClose, selectedValue }: OrderBumpModa
                           +R$ {bump.price}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-muted-foreground ml-7">
                         {bump.description}
                       </p>
                     </div>

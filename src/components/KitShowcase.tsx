@@ -7,28 +7,28 @@ import adesivosPride from '@/assets/adesivos-pride.png';
 const kitItems = [
   {
     image: camisetaPride,
-    name: 'Camiseta Pride',
-    description: 'Camiseta de alta qualidade com estampa exclusiva do arco-íris e mensagem de amor e respeito',
+    name: 'Camiseta "Amor é Amor" 🏳️‍🌈',
+    description: 'Vista o orgulho! Tecido premium com estampa vibrante que celebra a diversidade e espalha amor por onde você passar',
   },
   {
     image: bonePride,
-    name: 'Boné Orgulho',
-    description: 'Boné com bordado da bandeira do orgulho LGBT+ em cores vibrantes',
+    name: 'Boné Rainbow Pride',
+    description: 'Proteção com estilo! Bordado de alta qualidade que transforma cada dia em uma declaração de apoio e respeito',
   },
   {
     image: garrafaPride,
-    name: 'Garrafa Pride',
-    description: 'Garrafa térmica com as cores do arco-íris, perfeita para o dia a dia',
+    name: 'Garrafa Térmica Arco-Íris',
+    description: 'Hidrate-se com orgulho! Design exclusivo que mantém sua bebida na temperatura ideal por até 24h',
   },
   {
     image: pulseiraPride,
-    name: 'Pulseira Orgulho',
-    description: 'Pulseira de silicone colorida com as cores da diversidade',
+    name: 'Pulseira da Igualdade 💪',
+    description: 'Símbolo de força e união! Use diariamente como lembrança de que juntos somos mais fortes',
   },
   {
     image: adesivosPride,
-    name: 'Adesivos Exclusivos',
-    description: 'Cartela com adesivos Pride e mensagens de inclusão e amor',
+    name: 'Pack Adesivos de Amor 💗',
+    description: 'Espalhe a mensagem! 15+ adesivos criativos para notebook, celular, caderno e onde sua criatividade permitir',
   },
 ];
 

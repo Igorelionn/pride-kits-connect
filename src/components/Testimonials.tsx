@@ -13,6 +13,7 @@ const testimonials = [
   {
     name: 'Fernanda Lima',
     avatar: 'F',
+    photo: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces',
     badge: 'Compra Verificada',
     text: 'Ameiii demais! Recebi meu kit super rápido e a qualidade é incrível. A camiseta ficou perfeita e uso com muito orgulho. Já indiquei pra todas as amigas! 🏳️‍🌈💜',
     rating: 5,
@@ -20,6 +21,7 @@ const testimonials = [
   {
     name: 'Lucas Oliveira',
     avatar: 'L',
+    photo: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=faces',
     badge: 'Entrega Rápida',
     text: 'Cara, que kit massa! Chegou super rápido, tudo bem embalado e a qualidade surpreendeu demais. O boné é lindo e já estou usando todo dia. Vale muito apoiar essa causa!',
     rating: 5,
@@ -27,6 +29,7 @@ const testimonials = [
   {
     name: 'Camila Santos',
     avatar: 'C',
+    photo: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop&crop=faces',
     badge: 'Perfeito pra Presentear',
     text: 'Comprei 3 kits, um pra mim e dois pra presentear pessoas especiais. Todo mundo amou! A garrafa térmica é maravilhosa e os adesivos já estão espalhados por todo lugar 🌈',
     rating: 5,
@@ -34,6 +37,7 @@ const testimonials = [
   {
     name: 'Rafael Mendes',
     avatar: 'R',
+    photo: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=faces',
     badge: 'Compra Verificada',
     text: 'Finalmente uma campanha que realmente entrega o que promete! Kit completo, qualidade excelente e entrega antes do prazo. Super recomendo para todos!',
     rating: 5,
@@ -41,6 +45,7 @@ const testimonials = [
   {
     name: 'Julia Pereira',
     avatar: 'J',
+    photo: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop&crop=faces',
     badge: 'Entrega Rápida',
     text: 'A pulseira é linda demais! Uso todos os dias e já recebi vários elogios. A causa é importante e o kit é a cereja do bolo. Obrigada por tudo! 💕🏳️‍🌈',
     rating: 5,
@@ -48,6 +53,7 @@ const testimonials = [
   {
     name: 'Thiago Costa',
     avatar: 'T',
+    photo: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop&crop=faces',
     badge: 'Compra Verificada',
     text: 'Apoiei sem esperar muito e fui surpreendido! A camiseta tem um caimento perfeito, o boné é super confortável. Valeu cada centavo investido nessa causa!',
     rating: 5,
@@ -55,6 +61,7 @@ const testimonials = [
   {
     name: 'Mariana Alves',
     avatar: 'M',
+    photo: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop&crop=faces',
     badge: 'Perfeito pra Presentear',
     text: 'Dei de presente de aniversário pra minha melhor amiga e ela amou! Chegou super rápido e bem embalado. Com certeza vou comprar mais. Parabéns pelo trabalho!',
     rating: 5,
@@ -62,6 +69,7 @@ const testimonials = [
   {
     name: 'Pedro Henrique',
     avatar: 'P',
+    photo: 'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=200&h=200&fit=crop&crop=faces',
     badge: 'Compra Verificada',
     text: 'Excelente iniciativa! Além de apoiar uma causa tão importante, ainda recebi um kit de altíssima qualidade. Os adesivos são super criativos. Recomendo demais! 🌈',
     rating: 5,
@@ -169,8 +177,12 @@ export const Testimonials = () => {
                 >
                   <div className="bg-background rounded-2xl p-6 border border-border shadow-soft hover:shadow-card transition-all h-full">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-12 h-12 rounded-full gradient-pride flex items-center justify-center text-primary-foreground font-bold">
-                        {testimonial.avatar}
+                      <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-primary/20">
+                        <img 
+                          src={testimonial.photo} 
+                          alt={testimonial.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <div className="font-display font-bold text-foreground">

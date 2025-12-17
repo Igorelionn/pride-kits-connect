@@ -58,7 +58,7 @@ export const Footer = () => {
         <div className="border-t border-background/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/50">
             <p>
-              © 2024 Juntos pela Diversidade. Todos os direitos reservados.
+              © 2025 Juntos pela Diversidade. Todos os direitos reservados.
             </p>
             <p className="flex items-center gap-1">
               Amor é amor! 🌈

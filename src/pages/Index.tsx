@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { UrgencyHeader } from '@/components/UrgencyHeader';
 import { HeroSection } from '@/components/HeroSection';
 import { DonationValues } from '@/components/DonationValues';
@@ -13,10 +14,18 @@ import { OrderBumpModal } from '@/components/OrderBumpModal';
 const Index = () => {
   const [selectedValue, setSelectedValue] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleSelectValue = (value: number) => {
     setSelectedValue(value);
-    setIsModalOpen(true);
+    
+    // Se for doação de R$ 500, vai direto para agradecimento (sem order bumps)
+    if (value >= 500) {
+      navigate('/obrigado');
+    } else {
+      // Caso contrário, abre o modal de order bumps
+      setIsModalOpen(true);
+    }
   };
 
   const scrollToDonate = () => {
