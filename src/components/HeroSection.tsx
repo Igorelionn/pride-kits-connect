@@ -19,6 +19,7 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [showControls, setShowControls] = useState(true);
+  const [showUnmuteButton, setShowUnmuteButton] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -78,12 +79,15 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
     const playVideo = async () => {
       if (videoRef.current) {
         try {
-          // Tenta iniciar o vídeo
+          // Tenta iniciar o vídeo com som
           await videoRef.current.play();
+          // Se conseguiu, não mostra o botão de unmute
+          setShowUnmuteButton(false);
         } catch (error) {
-          // Se falhar (política de autoplay), tenta mutado
-          console.log('Autoplay bloqueado, tentando com mute');
+          // Se falhar (política de autoplay), inicia mutado e mostra botão
+          console.log('Autoplay bloqueado, iniciando mutado');
           setIsMuted(true);
+          setShowUnmuteButton(true);
           if (videoRef.current) {
             videoRef.current.muted = true;
             try {
@@ -101,6 +105,15 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
     
     return () => clearTimeout(timer);
   }, []);
+
+  // Função para ativar o som
+  const handleUnmute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = false;
+      setIsMuted(false);
+      setShowUnmuteButton(false);
+    }
+  };
 
   // Atualiza o progresso sempre que raised ou goal mudar (NUNCA DIMINUI)
   useEffect(() => {
@@ -250,6 +263,24 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
               <div 
                 className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent pointer-events-none" 
               />
+
+              {/* Botão para Ativar Som */}
+              {showUnmuteButton && (
+                <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-10">
+                  <button
+                    onClick={handleUnmute}
+                    className="gradient-cta text-primary-foreground font-bold px-8 py-6 rounded-2xl shadow-glow hover:scale-105 transition-all animate-pulse"
+                  >
+                    <div className="flex items-center gap-3">
+                      <Volume2 className="w-6 h-6" />
+                      <div className="text-left">
+                        <div className="text-lg">🎵 Seu vídeo já começou!</div>
+                        <div className="text-sm opacity-90">Clique para ativar o som</div>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              )}
               
               {/* Play/Pause Button */}
               <button
