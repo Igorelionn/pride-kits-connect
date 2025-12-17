@@ -78,24 +78,15 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
   useEffect(() => {
     const playVideo = async () => {
       if (videoRef.current) {
+        // Sempre inicia mutado e mostra o botão na primeira vez
+        setIsMuted(true);
+        setShowUnmuteButton(true);
+        videoRef.current.muted = true;
+        
         try {
-          // Tenta iniciar o vídeo com som
           await videoRef.current.play();
-          // Se conseguiu, não mostra o botão de unmute
-          setShowUnmuteButton(false);
-        } catch (error) {
-          // Se falhar (política de autoplay), inicia mutado e mostra botão
-          console.log('Autoplay bloqueado, iniciando mutado');
-          setIsMuted(true);
-          setShowUnmuteButton(true);
-          if (videoRef.current) {
-            videoRef.current.muted = true;
-            try {
-              await videoRef.current.play();
-            } catch (err) {
-              console.error('Erro ao iniciar vídeo:', err);
-            }
-          }
+        } catch (err) {
+          console.error('Erro ao iniciar vídeo:', err);
         }
       }
     };
