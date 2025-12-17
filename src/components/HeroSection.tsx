@@ -20,6 +20,7 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
   const [isPaused, setIsPaused] = useState(false);
   const [showControls, setShowControls] = useState(true);
   const [showUnmuteButton, setShowUnmuteButton] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
   const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
 
@@ -76,25 +77,44 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
 
   // Garante que o vídeo inicie automaticamente
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Event listener para quando o vídeo estiver pronto
+    const handleCanPlay = () => {
+      setIsVideoLoading(false);
+    };
+
+    const handleLoadStart = () => {
+      setIsVideoLoading(true);
+    };
+
+    video.addEventListener('canplay', handleCanPlay);
+    video.addEventListener('loadstart', handleLoadStart);
+
     const playVideo = async () => {
-      if (videoRef.current) {
+      if (video) {
         // Sempre inicia mutado e mostra o botão na primeira vez
         setIsMuted(true);
         setShowUnmuteButton(true);
-        videoRef.current.muted = true;
+        video.muted = true;
         
         try {
-          await videoRef.current.play();
+          await video.play();
         } catch (err) {
           console.error('Erro ao iniciar vídeo:', err);
         }
       }
     };
 
-    // Pequeno delay para garantir que o vídeo está carregado
+    // Delay para garantir que o vídeo está carregado
     const timer = setTimeout(playVideo, 100);
     
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      video.removeEventListener('canplay', handleCanPlay);
+      video.removeEventListener('loadstart', handleLoadStart);
+    };
   }, []);
 
   // Função para ativar o som
@@ -106,21 +126,34 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
     }
   };
 
-  // Atualiza o progresso sempre que raised ou goal mudar (NUNCA DIMINUI)
+  // Atualiza o progresso sempre que raised ou goal mudar (NUNCA DIMINUI, MAX 100%)
   useEffect(() => {
     const newProgress = Math.round((raised / goal) * 100);
     setProgress((prev) => {
-      // Garante que o progresso nunca diminui
-      return newProgress > prev ? newProgress : prev;
+      // Garante que o progresso nunca diminui e nunca ultrapassa 100%
+      const safeProgress = Math.min(newProgress, 100);
+      return safeProgress > prev ? safeProgress : prev;
     });
   }, [raised, goal]);
 
-  // Aumenta o valor arrecadado a cada 8-15 segundos (NUNCA DIMINUI)
+  // Aumenta o valor arrecadado a cada 8-15 segundos (NUNCA DIMINUI, MAX 100%)
   useEffect(() => {
     const raisedTimer = setInterval(() => {
       setRaised((prev) => {
+        // Se já atingiu 100% ou passou, para de aumentar
+        if (progress >= 100) {
+          return prev;
+        }
+        
         const increase = Math.floor(Math.random() * 250) + 150; // +R$ 150 a +R$ 400
         const newValue = prev + increase;
+        
+        // Verifica se o novo valor não vai ultrapassar 100%
+        const newProgress = (newValue / goal) * 100;
+        if (newProgress > 100) {
+          // Ajusta para ficar exatamente em 100%
+          return goal;
+        }
         
         // Reset quando a meta atingir o máximo
         if (goal >= MAX_GOAL) {
@@ -134,12 +167,17 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
     }, Math.random() * 7000 + 8000); // Entre 8 e 15 segundos
     
     return () => clearInterval(raisedTimer);
-  }, [goal]);
+  }, [goal, progress]);
 
   // Aumenta a meta gradualmente a cada 30-40 segundos (menos frequente que o valor arrecadado)
   useEffect(() => {
     const goalTimer = setInterval(() => {
       setGoal((prev) => {
+        // Para de aumentar se já atingiu 100%
+        if (progress >= 100) {
+          return prev;
+        }
+        
         // Se já atingiu o máximo, reseta
         if (prev >= MAX_GOAL) {
           return INITIAL_GOAL;
@@ -154,7 +192,7 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
     }, Math.random() * 10000 + 30000); // Entre 30 e 40 segundos
     
     return () => clearInterval(goalTimer);
-  }, []);
+  }, [progress]);
 
   return (
     <section className="gradient-hero py-12 md:py-20">
@@ -232,7 +270,16 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
 
           {/* Video Below */}
           <div className="relative rounded-2xl overflow-hidden shadow-card bg-card mt-8 max-w-md mx-auto">
-            <div className="aspect-[9/16] relative">
+            <div className="aspect-[9/16] relative bg-muted">
+              {/* Loading Skeleton */}
+              {isVideoLoading && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm z-20">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent mx-auto mb-3"></div>
+                    <p className="text-sm text-foreground/70">Carregando vídeo...</p>
+                  </div>
+                </div>
+              )}
               <video
                 ref={videoRef}
                 className="w-full h-full object-cover cursor-pointer"
@@ -240,7 +287,8 @@ export const HeroSection = ({ onDonateClick }: HeroSectionProps) => {
                 loop
                 muted={isMuted}
                 playsInline
-                preload="auto"
+                preload="metadata"
+                poster="/placeholder.svg"
                 onClick={handleVideoClick}
               >
                 <source
